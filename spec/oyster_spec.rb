@@ -39,9 +39,10 @@ describe Oyster do
       expect{ subject.touch_out }.to change {subject.status}.to(:not_in_use)
     end 
 
-    # it ".in_journey?" do
-    # expect(subject)
-    # end
+    it ".in_journey?" do
+      subject.touch_in
+      expect(subject.in_journey?).to be true
+    end
 
   end
 

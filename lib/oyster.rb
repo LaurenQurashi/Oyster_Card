@@ -23,6 +23,11 @@ class Oyster
   def touch_out
     @status = :not_in_use
   end
+
+  def in_journey?
+    true if @status == :in_use
+  end
+
   private
 
   def check_top_up(value)
