@@ -30,9 +30,14 @@ describe Oyster do
   end
 
   context "usage" do
+
     it ".touch_in" do
       expect{ subject.touch_in }.to change {subject.status}.to(:in_use)
     end
+
+    it ".touch_out" do
+      expect{ subject.touch_out }.to change {subject.status}.to(:not_in_use)
+    end 
 
     # it ".in_journey?" do
     # expect(subject)

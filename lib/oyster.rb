@@ -20,6 +20,9 @@ class Oyster
     @status = :in_use
   end
 
+  def touch_out
+    @status = :not_in_use
+  end
   private
 
   def check_top_up(value)
