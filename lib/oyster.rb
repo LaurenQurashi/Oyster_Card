@@ -1,4 +1,5 @@
 class Oyster
+  MAXIMUM_LIMIT = 90
   attr_reader :balance
 
   def initialize(balance = 0)
@@ -6,7 +7,7 @@ class Oyster
   end
 
   def top_up(value)
+    raise "Can't top up: Maximum limit of #{MAXIMUM_LIMIT} reached" if (@balance + value) > MAXIMUM_LIMIT
     @balance += value
   end
-
 end
