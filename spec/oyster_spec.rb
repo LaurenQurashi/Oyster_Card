@@ -15,7 +15,7 @@ describe Oyster do
     end
 
     it "stops topping up if balance reached maximum limit: 90" do
-      subject.top_up(90)
+      subject.top_up(Oyster::MAXIMUM_LIMIT)
       expect {subject.top_up(1)}.to raise_error "Can't top up: Maximum limit of #{Oyster::MAXIMUM_LIMIT} reached"
     end
   end
