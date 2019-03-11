@@ -4,7 +4,7 @@ class Oyster
 
   def initialize(balance = 0)
     @balance = balance
-    @status = :new
+    @status = false
   end
 
   def top_up(value)
@@ -17,15 +17,15 @@ class Oyster
   end
 
   def touch_in
-    @status = :in_use
+    @status = true
   end
 
   def touch_out
-    @status = :not_in_use
+    @status = false
   end
 
   def in_journey?
-    true if @status == :in_use
+    true if @status
   end
 
   private
