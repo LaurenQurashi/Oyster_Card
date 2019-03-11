@@ -1,9 +1,10 @@
 class Oyster
   MAXIMUM_LIMIT = 90
-  attr_reader :balance
+  attr_reader :balance, :status
 
   def initialize(balance = 0)
     @balance = balance
+    @status = :new
   end
 
   def top_up(value)
@@ -13,6 +14,10 @@ class Oyster
 
   def deduct(value)
     @balance -= value
+  end
+
+  def touch_in
+    @status = :in_use
   end
 
   private
