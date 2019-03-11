@@ -11,6 +11,10 @@ class Oyster
     @balance += value
   end
 
+  def deduct(value)
+    @balance -= value
+  end
+
   private
 
   def check_top_up(value)
