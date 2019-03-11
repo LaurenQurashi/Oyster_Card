@@ -7,5 +7,6 @@ class Oyster
 
   def top_up(value)
     @balance += value
-  end 
+  end
+
 end

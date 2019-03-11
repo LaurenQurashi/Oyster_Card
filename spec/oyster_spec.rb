@@ -9,6 +9,7 @@ describe Oyster do
   it " .top_up" do
     subject.top_up(20)
     expect(subject.balance).to eq 20
-  end 
+    # expect(subject.top_up).to change {subject.balance}.by(20)
+  end
 
 end
