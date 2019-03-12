@@ -1,4 +1,5 @@
 class Oyster
+  
   MAXIMUM_LIMIT = 90
   attr_reader :balance, :status
 

@@ -1,5 +1,6 @@
 require 'oyster'
 
+
 describe Oyster do
 
   it "doesn't have a balance bigger than 0 when initialized" do
@@ -38,7 +39,7 @@ describe Oyster do
     it ".touch_out" do
       subject.touch_in
       expect{ subject.touch_out }.to change {subject.status}.to be false
-    end 
+    end
 
     it ".in_journey?" do
       subject.touch_in
