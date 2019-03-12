@@ -1,6 +1,7 @@
 class Oyster
 
   MAXIMUM_LIMIT = 90
+  MINIMUM_FARE = 1
   attr_reader :balance, :status
 
   def initialize(balance = 0)
@@ -13,9 +14,6 @@ class Oyster
     @balance += value
   end
 
-  def deduct(value)
-    @balance -= value
-  end
 
   def touch_in
     raise "Insufficient Funds" if @balance < 1
@@ -23,6 +21,7 @@ class Oyster
   end
 
   def touch_out
+    deduct(MINIMUM_FARE)
     @status = false
   end
 
@@ -34,5 +33,9 @@ class Oyster
 
   def check_top_up(value)
     (@balance + value) > MAXIMUM_LIMIT
+  end
+
+  def deduct(value)
+    @balance -= value
   end
 end

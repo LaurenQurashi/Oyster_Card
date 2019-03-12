@@ -20,14 +20,14 @@ describe Oyster do
     end
   end
 
-  context "topping down" do
-
-    it ".deduct" do
-      subject.top_up(50)
-      expect { subject.deduct(1) }.to change {subject.balance}.by(-1)
-    end
-
-  end
+  # context "topping down" do
+  #
+  #   it ".deduct" do
+  #     subject.top_up(50)
+  #     expect { subject.deduct(1) }.to change {subject.balance}.by(-1)
+  #   end
+  #
+  # end
 
   context "usage" do
 
@@ -55,9 +55,16 @@ describe Oyster do
 
   end
 
-  context ""
-  it "raises an error if there are insufficient funds" do
-    oyster = Oyster.new
-    expect { subject.touch_in }.to raise_error("Insufficient Funds")
-  end
+  context "edge case"
+
+    it "raises an error if there are insufficient funds" do
+      oyster = Oyster.new
+      expect { subject.touch_in }.to raise_error("Insufficient Funds")
+    end
+
+    it 'deducts minimum fare when touch_out is called' do
+      subject.top_up(5)
+      subject.touch_in
+      expect{ subject.touch_out }.to change {subject.balance}.by(-Oyster::MINIMUM_FARE)
+    end
 end
