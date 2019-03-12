@@ -8,7 +8,6 @@ describe Oyster do
   end
 
   context "topping up" do
-
     it ".top_up" do
       subject.top_up(20)
       expect(subject.balance).to eq 20
@@ -32,20 +31,33 @@ describe Oyster do
 
   context "usage" do
 
+    # before(:each) do
+    #   subject = Oyster.new
+    #   subject.top_up(5)
+    # end
+
     it ".touch_in" do
+      subject.top_up(5)
       expect{ subject.touch_in }.to change {subject.status}.to be true
     end
 
     it ".touch_out" do
+      subject.top_up(5)
       subject.touch_in
       expect{ subject.touch_out }.to change {subject.status}.to be false
     end
 
     it ".in_journey?" do
+      subject.top_up(5)
       subject.touch_in
       expect(subject.in_journey?).to be true
     end
 
   end
 
+  context ""
+  it "raises an error if there are insufficient funds" do
+    oyster = Oyster.new
+    expect { subject.touch_in }.to raise_error("Insufficient Funds")
+  end
 end

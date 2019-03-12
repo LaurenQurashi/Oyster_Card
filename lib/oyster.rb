@@ -1,5 +1,5 @@
 class Oyster
-  
+
   MAXIMUM_LIMIT = 90
   attr_reader :balance, :status
 
@@ -18,6 +18,7 @@ class Oyster
   end
 
   def touch_in
+    raise "Insufficient Funds" if @balance < 1
     @status = true
   end
 
