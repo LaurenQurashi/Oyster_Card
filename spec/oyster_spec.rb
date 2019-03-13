@@ -3,7 +3,8 @@
 require 'oyster'
 
 describe Oyster do
-  let(:station) { double :station }
+  let(:station1) { double :station1 }
+  let(:station2) { double :station2 }
 
   it "doesn't have a balance bigger than 0 when initialized" do
     expect(subject.balance).to eq 0
@@ -39,18 +40,18 @@ describe Oyster do
 
     it '.touch_in' do
       subject.top_up(5)
-      expect { subject.touch_in(station) }.to change { subject.in_journey? }.to be true
+      expect { subject.touch_in(station1) }.to change { subject.in_journey? }.to be true
     end
 
-    it '.touch_out' do
+    it '.touch_out(station2)' do
       subject.top_up(5)
-      subject.touch_in(station)
-      expect { subject.touch_out }.to change { subject.in_journey? }.to be false
+      subject.touch_in(station1)
+      expect { subject.touch_out(station2) }.to change { subject.in_journey? }.to be false
     end
 
     it '.in_journey?' do
       subject.top_up(5)
-      subject.touch_in(station)
+      subject.touch_in(station1)
       expect(subject.in_journey?).to be true
     end
   end
@@ -58,28 +59,52 @@ describe Oyster do
   context 'Money focused methods' do
     it 'raises an error if there are insufficient funds' do
       Oyster.new
-      expect { subject.touch_in(station) }.to raise_error('Insufficient Funds')
+      expect { subject.touch_in(station1) }.to raise_error('Insufficient Funds')
     end
 
-    it 'deducts minimum fare when touch_out is called' do
+    it 'deducts minimum fare when touch_out(station2) is called' do
       subject.top_up(5)
-      subject.touch_in(station)
-      expect { subject.touch_out }.to change { subject.balance }.by(-Oyster::MINIMUM_FARE)
+      subject.touch_in(station1)
+      expect { subject.touch_out(station2) }.to change { subject.balance }.by(-Oyster::MINIMUM_FARE)
     end
   end
 
   context 'Remembering the Station' do
     it 'stores the entry station' do
       subject.top_up(5)
-      subject.touch_in(station)
-      expect(subject.entry_station).to eq station
+      subject.touch_in(station1)
+      expect(subject.entry_station).to eq station1
     end
 
     it 'removes the entry station' do
       subject.top_up(5)
-      subject.touch_in(station)
-      subject.touch_out
+      subject.touch_in(station1)
+      subject.touch_out(station2)
       expect(subject.entry_station).to eq nil
     end
+
+    it 'checks that a new card has an empty travel journey.' do
+      expect(subject.journeys).to eq []
+    end
+
+    it 'Oyster responds to the touch_out(station2) method with one argument ' do
+      expect(subject).to respond_to(:touch_out).with(1).argument
+    end
+
+    # it 'stores an exit station upon touch_out' do
+    #   subject.top_up(Oyster::MAXIMUM_LIMIT)
+    #   subject.touch_in(station1)
+    #   subject.touch_out(station2)
+    #   expect(subject.exit_station).to eq station2
+    # end
+
+    it 'stores journey history' do
+      subject.top_up(Oyster::MAXIMUM_LIMIT)
+      subject.touch_in(station1)
+      subject.touch_out(station2)
+      expect(subject.journeys).to eq [{station1 => station2}]
+    end
   end
+
+
 end
