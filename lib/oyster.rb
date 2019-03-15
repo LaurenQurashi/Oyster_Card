@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'journey.rb'
+require_relative 'station.rb'
+
 class Oyster
   MAXIMUM_LIMIT = 90
   MINIMUM_FARE = 1
+  PENALTY_FARE = 6
   attr_reader :balance, :status, :entry_station, :journeys, :exit_station
 
   def initialize(balance = 0)
@@ -18,19 +22,21 @@ class Oyster
   end
 
   def touch_in(station)
+    deduct(PENALTY_FARE) if in_journey?
     raise 'Insufficient Funds' if @balance < 1
-    @entry_station = station
 
+    @entry_station = station
   end
 
   def touch_out(station)
     deduct(MINIMUM_FARE)
-    @journeys << {@entry_station => station}
+    @journeys << { :entry_station => station, :exit_station => nil }
+    @exit_station = station
     @entry_station = nil
   end
 
   def in_journey?
-    !!entry_station
+    @entry_station != nil
   end
 
   private

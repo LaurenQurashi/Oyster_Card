@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'oyster'
+require 'journey'
+require 'station'
 
 describe Oyster do
   let(:station1) { double :station1 }
@@ -102,9 +104,14 @@ describe Oyster do
       subject.top_up(Oyster::MAXIMUM_LIMIT)
       subject.touch_in(station1)
       subject.touch_out(station2)
-      expect(subject.journeys).to eq [{station1 => station2}]
+      expect(subject.journeys).to eq [{ station1 => station2 }]
+    end
+
+    it 'deducts penalty if we have touch_in twice' do
+      subject.top_up(Oyster::MAXIMUM_LIMIT)
+      subject.touch_in(station1)
+      subject.touch_in(station1)
+      expect { subject.touch_in(station1) }.to change { subject.balance }.by(-Oyster::PENALTY_FARE)
     end
   end
-
-
 end

@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require 'oyster'
+require 'journey'
 require 'station'
 
 describe Station do
@@ -6,6 +10,6 @@ describe Station do
 
   it 'has a name and a zone' do
     station = Station.new(:name, :zone)
-    expect(station).to respond_to(:name , :zone)
+    expect(station).to respond_to(:name, :zone)
   end
 end
